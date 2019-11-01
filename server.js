@@ -6,6 +6,11 @@ const app = express();
 //connect database
 connectDB();
 
+//Init Middleware
+//included with express
+//allows to get req.data in req.body in user.js
+app.use(express.json({ extended: false }));
+
 //creating one end point sending data to browser
 app.get('/', (req, res) => res.send('API working'));
 
