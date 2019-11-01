@@ -8,6 +8,8 @@ const { check, validationResult } = require('express-validator');
 const User = require('../../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 //before every route you want to add 3 things:
 //@route = request type GET api/users <- endpoint
@@ -66,8 +68,19 @@ router.post('/', [
         //encrypt password using bcrypt
 
         //Return jwt
-        res.send('User registered');
-
+            const payload = {
+                user: {
+                    id: user.id
+                }
+            }
+            jwt.sign(payload, 
+                    config.get('jwtSecret'),
+                    { expiresIn: 36000 },
+                    (err, token) => {
+                        if(err) throw err;
+                        res.json({ token });
+                    }
+                    );
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server error');
