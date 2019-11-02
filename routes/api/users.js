@@ -19,7 +19,7 @@ const config = require('config');
 //this is a test route
 //router.get('/', (req, res) => res.send('User route'));
 
-//rount to register a new user
+//route to register a new user
 router.post('/', [
     check('name', 'Name is required')
         .not()
@@ -64,10 +64,7 @@ router.post('/', [
         //salting pass:
         user.password = await bcrypt.hash(password, salt);
         await user.save();
-
-        //encrypt password using bcrypt
-
-        //Return jwt
+         //Return jwt, get the payload
             const payload = {
                 user: {
                     id: user.id

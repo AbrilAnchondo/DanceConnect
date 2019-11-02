@@ -2,6 +2,8 @@ const express = require('express');
 
 //to use express router
 const  router = express.Router();
+const auth = require('../../middleware/auth');
+const User = require('../../models/User');
 
 //before every route you want to add 3 things:
 
@@ -10,7 +12,18 @@ const  router = express.Router();
 //@access = whether is public or private, do you need a token
 
 //this is a test route
-router.get('/', (req, res) => res.send('Auth route'));
+//to log in send the token and get back user data
+router.get('/', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        res.json(user);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+
 
 module.exports = router;
 
