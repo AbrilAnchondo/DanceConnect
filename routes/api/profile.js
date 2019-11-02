@@ -13,7 +13,7 @@ const User = require('../../models/User');
 //@description = get current user profile
 //@access = private
 
-//this is a test route
+//route to get logged in user's profile api/profile/me
 router.get('/me', auth, async (req, res) => {
     try {
         const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'avatar']);
