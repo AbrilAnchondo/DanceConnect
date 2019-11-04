@@ -135,6 +135,26 @@ router.get('/user/:user_id', async (req, res) => {
     }
 });
 
+//@route = request type DELETE api/profile
+//@description = Delete profile, user&posts
+//@access = private
+router.delete('/', auth, async (req, res) => {
+    try {
+        //todo- remove user's post
+        //remove profile
+        await Profile.findOneAndRemove({ user: req.user.id });
+        //remove user
+        await User.findOneAndRemove({ _id: req.user.id });
+        res.json({ msg: 'Deleted User' });
+    }catch (err) {
+        console.error(err.message);
+        if(err.kind === 'ObjectId') {
+            return res.status(400).json({ msg: 'Profile not found'})
+        }
+        res.status(500).send('Server error');
+    }
+});
+
 
 //whenever using a mongoose method we use await because it returns a promise
 module.exports = router;
