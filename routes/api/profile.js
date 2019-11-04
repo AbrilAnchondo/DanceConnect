@@ -103,6 +103,38 @@ router.post('/', [
     }
 });
 
+//@route = request type GET api/profile
+//@description = get all profiles
+//@access = public
+router.get('/', async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+        res.json(profiles);
+    }catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
+
+//@route = request type GET api/profile/user/:user_id
+//@description = get profile by user id
+//@access = public
+router.get('/user/:user_id', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);
+
+        if(!profile) return res.status(400).json({ msg: 'Profile not found'});
+
+        res.json(profile);
+    }catch (err) {
+        console.error(err.message);
+        if(err.kind === 'ObjectId') {
+            return res.status(400).json({ msg: 'Profile not found'})
+        }
+        res.status(500).send('Server error');
+    }
+});
+
 
 //whenever using a mongoose method we use await because it returns a promise
 module.exports = router;
