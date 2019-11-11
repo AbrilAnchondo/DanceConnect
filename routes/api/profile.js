@@ -279,7 +279,7 @@ async (req, res) => {
     }
 });
 
-//could be a put request though...
+
 //@route = request type DELETE api/profile/education/:edu_id
 //@description = Delete education from profile
 //@access = private
