@@ -59,7 +59,66 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
-//route = GET get single post by its id
+//route = GET api/posts/:id
+//description = Get post by its id
+//private
+router.get('/:id', auth, async (req, res) => {
+
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if(!post) {
+            return res.status(404).send({ msg: 'Post not found...'})
+        }
+
+        res.json(post);
+    } catch (err) {
+        console.error(err.message);
+
+        //to be more specific...if post is not found we should get the same error, if there isn't a valid ObjectId
+        if (err.kind === 'ObjectId') {
+           return  res.status(404).send({ msg: 'Post not found...'})
+        }
+
+        res.status(500).send('Server Error');
+    }
+    
+})
+
+// route DELETE api/posts/:id
+// description: delete post by id
+//private
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).send({ msg: 'Post not found...'})
+        }
+
+        //checking the user
+        if (post.user.toString() !== req.user.id) {
+            return res.status(401).send({msg: 'User not authorized' })
+        }
+
+        await post.remove();
+        res.json({ msg: 'Post removed'});
+
+        if (!post) {
+            return res.status(404).send({ msg: 'Post not found...' })
+        }
+        
+    } catch (err) {
+        console.error(err.message);
+
+        // if there isn't a valid objectId
+        if (err.kind === 'ObjectId') {
+            return  res.status(404).send({ msg: 'Post not found...'})
+         }
+
+        res.status(500).send({ msg: 'Server error'})
+    }
+})
 
 
 
