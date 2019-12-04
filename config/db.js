@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 
 //bring config to use mongoURI
+//config lets you create global variables to use through out the application
 const config = require('config');
 
 //to get any value in that json file
