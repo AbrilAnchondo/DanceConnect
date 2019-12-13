@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
-//import axios from 'axios'
+import axios from 'axios'
 
 
 const Register = () => {
@@ -47,7 +47,7 @@ const Register = () => {
 
     return (
         <Fragment>
-            <h1 className="">Sign Up</h1>
+            <h1 className="">Register</h1>
             <p className=""><i className="fas fa-user"></i> Create an Account</p>
             <form className="form" onSubmit={(e) => handleSubmit(e)}>
                 <div className="form-fields">
@@ -87,6 +87,7 @@ const Register = () => {
                 </div>
                 <input className="btn" 
                 type="submit"
+                value="register"
                 />
             </form>
             <p>You already have an account? <Link to="/login">Login</Link></p>
