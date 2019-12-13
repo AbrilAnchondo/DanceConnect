@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+//import axios from 'axios'
 
 
 const Register = () => {
@@ -22,9 +22,27 @@ const Register = () => {
         if (password !== password2) {
             console.log("Passwords do not match")
         } else {
-          console.log(formData);
-          
-        }    
+          const newUser = {
+              name,
+              email,
+              password
+          }
+    
+            try {
+                const configObj = {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+                const body = JSON.stringify(newUser);
+                const resp = await axios.post('http://localhost:5000/api/users', body, configObj)
+                console.log(resp);
+                console.log(resp.data);
+                
+            } catch (error) {
+                console.error(error);
+            }
+        }
     }
 
     return (

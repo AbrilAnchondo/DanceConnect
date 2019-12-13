@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 
 const app = express();
+const cors = require('cors');
 
 //connect database
 connectDB();
@@ -10,6 +11,8 @@ connectDB();
 //included with express
 //allows to get req.data in req.body in user.js
 app.use(express.json({ extended: false }));
+
+app.use(cors());
 
 //creating one end point sending data to browser
 app.get('/', (req, res) => res.send('API working'));
