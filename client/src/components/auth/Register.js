@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 
-const Register = () => {
+const Register = ({ onRegister }) => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -36,8 +36,10 @@ const Register = () => {
                 }
                 const body = JSON.stringify(newUser);
                 const resp = await axios.post('http://localhost:5000/api/users', body, configObj)
-                console.log(resp);
+                console.log(newUser)
                 console.log(resp.data);
+                localStorage.token = resp.data;
+                onRegister(newUser);
                 
             } catch (error) {
                 console.error(error);

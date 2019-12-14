@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Axios from 'axios';
+import axios from 'axios';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
+    
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -23,12 +24,17 @@ const Login = () => {
         try {
             const configObj = {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accepts': 'application/json'
                 }
             }
             const body = JSON.stringify(userLoginInfo);
-            const user = await Axios.post("http://localhost:5000/api/auth", body, configObj)
-            console.log(user.data.token)
+            const user = await axios.post("http://localhost:5000/api/auth", body, configObj)
+            console.log(userLoginInfo)
+            console.log(user.data)
+            localStorage.token = user.data.token
+            onLogin(userLoginInfo);
+
             
         } catch (error) {
             console.error(error);
