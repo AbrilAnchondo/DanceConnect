@@ -1,9 +1,10 @@
 import React, { Fragment, useState } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 
-const Register = ({ onRegister }) => {
+const Register = ({ onRegister, history }) => {
+    console.log(history)
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -37,9 +38,8 @@ const Register = ({ onRegister }) => {
                 const body = JSON.stringify(newUser);
                 const resp = await axios.post('http://localhost:5000/api/users', body, configObj)
                 localStorage.token = resp.data.token;
-                onRegister(newUser);
-                
-                
+                onRegister();   
+                history.push('/');  
             } catch (error) {
                 console.error(error);
             }

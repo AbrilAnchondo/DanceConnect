@@ -45,7 +45,7 @@ router.post('/', [
         }
 
         //destructuring to avoid repetition
-        const { name, email, password } = req.body;
+        const { email, password } = req.body;
 
         try {
         //we need to check if there is not a user

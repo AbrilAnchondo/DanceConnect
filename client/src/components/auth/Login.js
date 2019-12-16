@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios';
 
-const Login = ({ onLogin }) => {
-    
+const Login = ({ onLogin, history }) => {
+    console.log(history)
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -30,9 +30,9 @@ const Login = ({ onLogin }) => {
             }
             const body = JSON.stringify(userLoginInfo);
             const user = await axios.post("http://localhost:5000/api/auth", body, configObj)
-            localStorage.token = user.data.token
-            onLogin(userLoginInfo);
-
+            localStorage.token = user.data.token;
+            onLogin();
+            history.push('/');
             
         } catch (error) {
             console.error(error);

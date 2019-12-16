@@ -18,37 +18,41 @@ class App extends Component {
     avatar: ""
   }
 
-  handleLogin = (userInfo) => {
-    // console.log(userInfo);
-    // setUserName(userInfo.name);
-    // setUserEmail(userInfo.email); 
-    this.setState({
-      id: userInfo.id,
-      username: userInfo.name,
-      email: userInfo.email,
-      avatar: userInfo.avatar
-    })
+  
+  componentDidMount () {
+    this.handleLogin();
+    
   }
 
-  componentDidMount () {
-    fetch("http://localhost:5000/api/auth", {
-      headers: {
-        "x-auth-token": localStorage.token
-      }
-    })
-    .then(resp => resp.json())
-    .then(userInfo => {
-      this.handleLogin(userInfo)
-    })
+  handleLogin = () => {
+    if(localStorage.token) {
+      fetch("http://localhost:5000/api/auth", {
+        headers: {
+          "x-auth-token": localStorage.token
+        }
+      })
+      .then(resp => resp.json())
+      .then(userInfo => {
+        console.log(userInfo)
+        if (!userInfo.errors) {
+          this.setState({
+            id: userInfo._id,
+            username: userInfo.name,
+            email: userInfo.email,
+            avatar: userInfo.avatar
+          })
+        }
+      })
+    }
+    
   }
- 
+
   render() {
-    console.log(this.state)
     return (
       
       <Fragment>
         <Navbar/>
-        <Route exact path="/" render={(routerProps)=> <Home {...routerProps}  />} />
+        <Route exact path="/" render={(routerProps)=> <Home {...routerProps}  />}  username={this.state.username} id={this.state.id} />
           <section className="container">
             <Switch>
               <Route exact path="/register" render={(routerProps)=> <Register {...routerProps} onRegister={this.handleLogin} />} />
