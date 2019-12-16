@@ -30,8 +30,6 @@ const Login = ({ onLogin }) => {
             }
             const body = JSON.stringify(userLoginInfo);
             const user = await axios.post("http://localhost:5000/api/auth", body, configObj)
-            console.log(userLoginInfo)
-            console.log(user.data)
             localStorage.token = user.data.token
             onLogin(userLoginInfo);
 
