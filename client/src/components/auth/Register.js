@@ -4,7 +4,6 @@ import axios from 'axios'
 
 
 const Register = ({ onRegister, history }) => {
-    console.log(history)
     const [formData, setFormData] = useState({
         name: "",
         email: "",

@@ -1,9 +1,8 @@
 import React, { Fragment, useState } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 const Login = ({ onLogin, history }) => {
-    console.log(history)
     const [formData, setFormData] = useState({
         email: "",
         password: ""

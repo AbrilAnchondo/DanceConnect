@@ -6,11 +6,9 @@ import './App.css';
 
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
+import Logout from './components/auth/Logout'
 
 class App extends Component {
-  //const [userID, setUserID] = useState("");
-  // const [userName, setUserName] = useState("");
-  // const [userEmail, setUserEmail] = useState("");
   state = {
     id: "",
     username: "",
@@ -52,13 +50,19 @@ class App extends Component {
       
       <Fragment>
         <Navbar/>
-        <Route exact path="/" render={(routerProps)=> <Home {...routerProps}  />}  username={this.state.username} id={this.state.id} />
+        <Route exact path="/" render={(routerProps)=> <Home {...routerProps}  />}  />
           <section className="container">
+
             <Switch>
               <Route exact path="/register" render={(routerProps)=> <Register {...routerProps} onRegister={this.handleLogin} />} />
+
+              <Route exact path="/logout" render={(routerProps)=> <Logout  {...routerProps} username={this.state.username} />} />
+
               <Route exact path="/login" render={(routerProps)=> <Login {...routerProps} onLogin={this.handleLogin} />} />
-              <Route exact path="/profile" />
+
+              <Route exact path="/profile"/>
             </Switch>
+
         </section>
       </Fragment>
           
